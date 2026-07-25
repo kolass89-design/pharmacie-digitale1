@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechercher un medicament - Pharmacie Digitale</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/search.css">
+</head>
+<body>
+  <div class="premium-bg"><div class="blob-accent"></div></div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="brand">
+        <span class="brand-icon"><i data-lucide="pill"></i></span>
+        Pharmacie Digitale
+      </a>
+      <nav>
+        <ul>
+          <li><a href="medicaments.html" style="color:white;">Recherche</a></li>
+          <li><a href="../index.html#features">Fonctionnalites</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="../login.html" class="btn btn-ghost">Se connecter</a>
+        <a href="../register.html" class="btn btn-primary">S'inscrire</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="search-page">
+    <section class="search-hero">
+      <div data-aos="fade-up">
+        <span class="badge badge-primary" style="margin-bottom:20px;padding:8px 16px;">
+          <i data-lucide="search" style="width:14px;height:14px;"></i> Recherche en temps reel
+        </span>
+        <h1>Trouvez votre <span class="text-gradient">medicament</span></h1>
+        <p>Verifiez la disponibilite dans les pharmacies proches, en temps reel.</p>
+
+        <div class="search-main-bar">
+          <input type="text" id="search-input" placeholder="Ex : Paracetamol, Ibuprofene, Amoxicilline..." autofocus>
+          <button class="btn btn-primary" id="search-btn">
+            <i data-lucide="search"></i> Rechercher
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="search-layout">
+      <aside class="filters-panel" data-aos="fade-right">
+        <h3><i data-lucide="sliders-horizontal" style="width:18px;height:18px;"></i> Filtres</h3>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Disponibilite</div>
+          <label class="filter-option"><input type="checkbox" id="filter-in-stock" checked> En stock uniquement</label>
+          <label class="filter-option"><input type="checkbox" id="filter-prescription"> Sans ordonnance</label>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Ville</div>
+          <select class="form-select" id="filter-city">
+            <option value="">Toutes les villes</option>
+            <option value="Cotonou">Cotonou</option>
+            <option value="Porto-Novo">Porto-Novo</option>
+            <option value="Parakou">Parakou</option>
+            <option value="Abomey-Calavi">Abomey-Calavi</option>
+            <option value="Dakar">Dakar</option>
+            <option value="Abidjan">Abidjan</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Prix maximum</div>
+          <input type="range" id="filter-price" min="500" max="20000" step="500" value="20000" style="width:100%;accent-color:var(--color-primary);">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-medium);margin-top:4px;">
+            <span>500 FCFA</span>
+            <span id="price-value">20 000 FCFA</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Categorie</div>
+          <label class="filter-option"><input type="checkbox" class="filter-cat" value="Antalgique"> Antalgique</label>
+          <label class="filter-option"><input type="checkbox" class="filter-cat" value="Antibiotique"> Antibiotique</label>
+          <label class="filter-option"><input type="checkbox" class="filter-cat" value="Anti-inflammatoire"> Anti-inflammatoire</label>
+          <label class="filter-option"><input type="checkbox" class="filter-cat" value="Vitamine"> Vitamine</label>
+          <label class="filter-option"><input type="checkbox" class="filter-cat" value="Antipaludique"> Antipaludique</label>
+        </div>
+      </aside>
+
+      <section>
+        <div class="results-header">
+          <div class="results-count"><strong id="results-count">0</strong> resultat(s) trouve(s)</div>
+          <select class="form-select" id="sort-select" style="width:auto;">
+            <option value="distance">Distance</option>
+            <option value="price_asc">Prix croissant</option>
+            <option value="price_desc">Prix decroissant</option>
+            <option value="stock">Stock disponible</option>
+          </select>
+        </div>
+
+        <div id="results-container">
+          <div style="text-align:center;padding:60px 20px;color:white;">
+            <i data-lucide="search" style="width:48px;height:48px;opacity:0.5;"></i>
+            <h3 style="color:white;margin-top:16px;">Commencez a rechercher</h3>
+            <p style="color:rgba(255,255,255,0.7);">Tapez le nom du medicament recherche dans la barre ci-dessus.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="brand-icon"><i data-lucide="pill"></i></span> Pharmacie Digitale</div>
+        <p class="footer-tagline">La plateforme SaaS de reference pour la gestion pharmaceutique en Afrique.</p>
+      </div>
+      <div><h5>Produit</h5><ul><li><a href="../index.html#features">Fonctionnalites</a></li><li><a href="../register.html">S'inscrire</a></li></ul></div>
+      <div><h5>Ressources</h5><ul><li><a href="#">Documentation</a></li><li><a href="#">API</a></li></ul></div>
+      <div class="footer-dev-card">
+        <h6>Developpeur</h6>
+        <ul class="footer-contact-list">
+          <li><a href="tel:+22901974888805"><i data-lucide="phone"></i>+229 01 97 48 88 05</a></li>
+          <li><a href="https://wa.me/22997488805" target="_blank"><i data-lucide="message-circle"></i>WhatsApp</a></li>
+          <li><a href="mailto:moukoddims@gmail.com"><i data-lucide="mail"></i>moukoddims@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-copyright">Developpe avec <span class="heart">❤</span> par <strong>Moukoddi</strong> &middot; © 2026</div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/search.js"></script>
+</body>
+</html>

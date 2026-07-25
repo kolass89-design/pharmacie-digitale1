@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord - Pharmacie Digitale</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-icon"><i data-lucide="pill"></i></span>
+      Pharmacie Digitale
+    </a>
+
+    <div class="dash-nav-section">Principal</div>
+    <ul class="dash-nav">
+      <li><a href="index.html" class="active"><i data-lucide="layout-dashboard"></i> Tableau de bord</a></li>
+      <li><a href="pos.html"><i data-lucide="shopping-cart"></i> Caisse POS</a></li>
+      <li><a href="stock.html"><i data-lucide="package"></i> Stock</a></li>
+      <li><a href="ordonnances.html"><i data-lucide="file-text"></i> Ordonnances</a></li>
+    </ul>
+
+    <div class="dash-nav-section">Gestion</div>
+    <ul class="dash-nav">
+      <li><a href="suppliers.html"><i data-lucide="truck"></i> Fournisseurs</a></li>
+      <li><a href="accounting.html"><i data-lucide="calculator"></i> Comptabilite</a></li>
+      <li><a href="reports.html"><i data-lucide="bar-chart-3"></i> Rapports &amp; BI</a></li>
+    </ul>
+
+    <div class="dash-nav-section">Configuration</div>
+    <ul class="dash-nav">
+      <li><a href="add-pharmacy.html"><i data-lucide="plus-circle"></i> Ajouter pharmacie</a></li>
+      <li><a href="settings.html"><i data-lucide="settings"></i> Parametres</a></li>
+      <li><a href="#" data-action="logout"><i data-lucide="log-out"></i> Deconnexion</a></li>
+    </ul>
+  </aside>
+
+  <div class="dash-main">
+    <!-- TOPBAR -->
+    <header class="dash-topbar">
+      <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+      <div class="search-bar">
+        <i data-lucide="search"></i>
+        <input type="text" placeholder="Rechercher produit, patient, facture...">
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="Notifications"><i data-lucide="bell"></i><span class="dot"></span></button>
+        <button class="icon-btn" title="Aide"><i data-lucide="help-circle"></i></button>
+        <div class="user-avatar">MS</div>
+      </div>
+    </header>
+
+    <div class="dash-content">
+      <div class="dash-page-title">
+        <div>
+          <h1>Bonjour, Moukoddi</h1>
+          <p>Voici un apercu de votre pharmacie aujourd'hui.</p>
+        </div>
+        <a href="pos.html" class="btn btn-primary"><i data-lucide="shopping-cart"></i> Nouvelle vente</a>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card success">
+          <div class="kpi-icon"><i data-lucide="trending-up"></i></div>
+          <div class="kpi-label">Chiffre d'affaires aujourd'hui</div>
+          <div class="kpi-value" id="kpi-ca">147 500 FCFA</div>
+          <div class="kpi-trend up"><i data-lucide="arrow-up" style="width:12px;height:12px;"></i> +12.5% vs hier</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"><i data-lucide="receipt"></i></div>
+          <div class="kpi-label">Ventes aujourd'hui</div>
+          <div class="kpi-value" id="kpi-sales">42</div>
+          <div class="kpi-trend up"><i data-lucide="arrow-up" style="width:12px;height:12px;"></i> +8 vs hier</div>
+        </div>
+        <div class="kpi-card warning">
+          <div class="kpi-icon"><i data-lucide="alert-triangle"></i></div>
+          <div class="kpi-label">Alertes stock</div>
+          <div class="kpi-value" id="kpi-alerts">23</div>
+          <div class="kpi-trend down"><i data-lucide="arrow-down" style="width:12px;height:12px;"></i> -3 depuis hier</div>
+        </div>
+        <div class="kpi-card danger">
+          <div class="kpi-icon"><i data-lucide="calendar-x"></i></div>
+          <div class="kpi-label">Peremptions &lt; 30j</div>
+          <div class="kpi-value" id="kpi-expiring">12</div>
+          <div class="kpi-trend down"><i data-lucide="arrow-up" style="width:12px;height:12px;"></i> +2 nouveaux</div>
+        </div>
+      </div>
+
+      <!-- Charts + activity -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px;">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>Evolution du chiffre d'affaires</h3>
+            <select class="form-select" style="width:auto;padding:6px 12px;font-size:13px;">
+              <option>7 derniers jours</option>
+              <option>30 derniers jours</option>
+              <option>Cette annee</option>
+            </select>
+          </div>
+          <canvas id="chart-ca" height="100"></canvas>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-header"><h3>Activite recente</h3></div>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-border);">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(16,185,129,0.15);color:#10B981;display:flex;align-items:center;justify-content:center;"><i data-lucide="check" style="width:16px;height:16px;"></i></div>
+              <div style="flex:1;"><div style="font-size:13.5px;font-weight:500;">Vente #4521</div><div style="font-size:12px;color:var(--color-text-light);">12 500 FCFA - il y a 5 min</div></div>
+            </li>
+            <li style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-border);">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,158,11,0.15);color:#F59E0B;display:flex;align-items:center;justify-content:center;"><i data-lucide="alert-triangle" style="width:16px;height:16px;"></i></div>
+              <div style="flex:1;"><div style="font-size:13.5px;font-weight:500;">Alerte stock bas</div><div style="font-size:12px;color:var(--color-text-light);">Paracetamol 500mg - 12 unites</div></div>
+            </li>
+            <li style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-border);">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(14,165,233,0.15);color:#0EA5E9;display:flex;align-items:center;justify-content:center;"><i data-lucide="truck" style="width:16px;height:16px;"></i></div>
+              <div style="flex:1;"><div style="font-size:13.5px;font-weight:500;">Commande recue</div><div style="font-size:12px;color:var(--color-text-light);">UbiPharm - 245 000 FCFA</div></div>
+            </li>
+            <li style="display:flex;gap:12px;padding:10px 0;">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(124,58,237,0.15);color:#7C3AED;display:flex;align-items:center;justify-content:center;"><i data-lucide="file-text" style="width:16px;height:16px;"></i></div>
+              <div style="flex:1;"><div style="font-size:13.5px;font-weight:500;">Ordonnance validee</div><div style="font-size:12px;color:var(--color-text-light);">Patient : Mme AHOUANDJINOU</div></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Top produits -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <h3>Top ventes de la semaine</h3>
+          <a href="reports.html" class="btn btn-secondary" style="padding:6px 12px;font-size:13px;">Voir tout</a>
+        </div>
+        <table class="dash-table">
+          <thead>
+            <tr><th>Produit</th><th>Categorie</th><th>Ventes</th><th>CA</th><th>Stock</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Paracetamol 500mg</strong></td><td><span class="badge badge-primary">Antalgique</span></td><td>128</td><td>192 000 FCFA</td><td><span class="badge badge-success">150 en stock</span></td></tr>
+            <tr><td><strong>Amoxicilline 500mg</strong></td><td><span class="badge badge-primary">Antibiotique</span></td><td>95</td><td>427 500 FCFA</td><td><span class="badge badge-warning">30 en stock</span></td></tr>
+            <tr><td><strong>Ibuprofene 400mg</strong></td><td><span class="badge badge-primary">Anti-inflammatoire</span></td><td>78</td><td>273 000 FCFA</td><td><span class="badge badge-success">45 en stock</span></td></tr>
+            <tr><td><strong>Vitamine C 1000mg</strong></td><td><span class="badge badge-primary">Vitamine</span></td><td>62</td><td>124 000 FCFA</td><td><span class="badge badge-success">200 en stock</span></td></tr>
+            <tr><td><strong>Aspirine 500mg</strong></td><td><span class="badge badge-primary">Antalgique</span></td><td>54</td><td>64 800 FCFA</td><td><span class="badge badge-danger">Rupture</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('chart-ca');
+      if (ctx && window.Chart) {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            datasets: [{
+              label: 'CA (FCFA)',
+              data: [98500, 112000, 87000, 145000, 132000, 168000, 147500],
+              borderColor: '#0EA5E9',
+              backgroundColor: 'rgba(14,165,233,0.1)',
+              borderWidth: 3,
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: '#0EA5E9',
+              pointRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { callback: v => (v/1000) + 'k' } }
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

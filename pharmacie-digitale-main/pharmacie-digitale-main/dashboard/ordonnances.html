@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordonnances - Pharmacie Digitale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/register.css">
+  <style>
+    .med-row { display: grid; grid-template-columns: 2fr 80px 1.5fr 100px 40px; gap: 8px; margin-bottom: 8px; align-items: center; }
+    @media (max-width: 700px) { .med-row { grid-template-columns: 1fr; padding: 12px; background: var(--color-bg-light); border-radius: 8px; } }
+  </style>
+</head>
+<body class="dashboard-body">
+
+  <aside class="dash-sidebar">
+    <a href="index.html" class="brand"><span class="brand-icon"><i data-lucide="pill"></i></span> Pharmacie Digitale</a>
+    <div class="dash-nav-section">Principal</div>
+    <ul class="dash-nav">
+      <li><a href="index.html"><i data-lucide="layout-dashboard"></i> Tableau de bord</a></li>
+      <li><a href="pos.html"><i data-lucide="shopping-cart"></i> Caisse POS</a></li>
+      <li><a href="stock.html"><i data-lucide="package"></i> Stock</a></li>
+      <li><a href="ordonnances.html" class="active"><i data-lucide="file-text"></i> Ordonnances</a></li>
+    </ul>
+    <div class="dash-nav-section">Gestion</div>
+    <ul class="dash-nav">
+      <li><a href="suppliers.html"><i data-lucide="truck"></i> Fournisseurs</a></li>
+      <li><a href="accounting.html"><i data-lucide="calculator"></i> Comptabilite</a></li>
+      <li><a href="reports.html"><i data-lucide="bar-chart-3"></i> Rapports &amp; BI</a></li>
+    </ul>
+    <div class="dash-nav-section">Configuration</div>
+    <ul class="dash-nav">
+      <li><a href="add-pharmacy.html"><i data-lucide="plus-circle"></i> Ajouter pharmacie</a></li>
+      <li><a href="settings.html"><i data-lucide="settings"></i> Parametres</a></li>
+      <li><a href="#" data-action="logout"><i data-lucide="log-out"></i> Deconnexion</a></li>
+    </ul>
+  </aside>
+
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+      <div class="search-bar"><i data-lucide="search"></i><input type="text" placeholder="Rechercher patient, ordonnance..."></div>
+      <div class="topbar-actions">
+        <button class="icon-btn"><i data-lucide="bell"></i><span class="dot"></span></button>
+        <div class="user-avatar">MS</div>
+      </div>
+    </header>
+
+    <div class="dash-content">
+      <div class="dash-page-title">
+        <div>
+          <h1>Ordonnances electroniques</h1>
+          <p>Gerez les prescriptions, verifiez les interactions et suivez les patients.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-new"><i data-lucide="plus"></i> Nouvelle ordonnance</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;">
+        <!-- List -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>Ordonnances recentes</h3>
+            <select class="form-select" style="width:auto;padding:6px 12px;font-size:13px;">
+              <option>Tous les statuts</option>
+              <option>Validees</option>
+              <option>En attente</option>
+            </select>
+          </div>
+          <table class="dash-table">
+            <thead><tr><th>Patient</th><th>Medecin</th><th>Date</th><th>Medicaments</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="ord-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Interactions panel -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3><i data-lucide="shield-alert" style="width:16px;height:16px;color:var(--color-warning);"></i> Verifications</h3>
+          </div>
+          <div style="display:flex;gap:10px;padding:10px;background:rgba(16,185,129,0.08);border-radius:8px;margin-bottom:8px;">
+            <i data-lucide="check-circle" style="color:var(--color-success);width:18px;height:18px;flex-shrink:0;margin-top:2px;"></i>
+            <div style="font-size:13px;"><strong>Aucune interaction majeure</strong><div style="color:var(--color-text-medium);font-size:12px;">Base a jour au ${new Date().toLocaleDateString('fr-FR')}</div></div>
+          </div>
+          <div style="display:flex;gap:10px;padding:10px;background:rgba(245,158,11,0.08);border-radius:8px;margin-bottom:8px;">
+            <i data-lucide="alert-triangle" style="color:var(--color-warning);width:18px;height:18px;flex-shrink:0;margin-top:2px;"></i>
+            <div style="font-size:13px;"><strong>3 renouvellements</strong><div style="color:var(--color-text-medium);font-size:12px;">a rappeler cette semaine</div></div>
+          </div>
+          <div style="display:flex;gap:10px;padding:10px;background:rgba(14,165,233,0.08);border-radius:8px;">
+            <i data-lucide="users" style="color:var(--color-primary);width:18px;height:18px;flex-shrink:0;margin-top:2px;"></i>
+            <div style="font-size:13px;"><strong>124 patients</strong><div style="color:var(--color-text-medium);font-size:12px;">dans votre base</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NEW -->
+  <div class="modal-backdrop" id="ord-modal">
+    <div class="modal-success" style="max-width:800px;text-align:left;">
+      <h2 style="text-align:left;-webkit-text-fill-color:initial;background:none;color:var(--color-text-dark);">Nouvelle ordonnance</h2>
+      <form id="ord-form" style="margin-top:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Patient <span class="required">*</span></label>
+            <input type="text" id="patient-name" class="form-input" placeholder="Nom du patient" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telephone</label>
+            <input type="tel" id="patient-phone" class="form-input" placeholder="+229 ...">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Medecin prescripteur <span class="required">*</span></label>
+            <input type="text" id="doctor" class="form-input" placeholder="Dr. Nom Prenom" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date <span class="required">*</span></label>
+            <input type="date" id="presc-date" class="form-input" required>
+          </div>
+        </div>
+
+        <h4 style="margin:16px 0 8px;font-size:14px;">Medicaments prescrits</h4>
+        <div id="med-list"></div>
+        <button type="button" class="btn btn-secondary" id="btn-add-med" style="margin-top:8px;"><i data-lucide="plus"></i> Ajouter un medicament</button>
+
+        <div class="form-group" style="margin-top:16px;">
+          <label class="form-label">Notes</label>
+          <textarea id="ord-notes" class="form-input" rows="2" placeholder="Observations, allergies connues, etc."></textarea>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:20px;">
+          <button type="button" class="btn btn-secondary" style="flex:1;" onclick="document.getElementById('ord-modal').classList.remove('show')">Annuler</button>
+          <button type="button" class="btn btn-secondary" style="flex:1;" id="btn-check-inter"><i data-lucide="shield-alert"></i> Verifier interactions</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;"><i data-lucide="save"></i> Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+  (function(){
+    const KEY = 'pd_ordonnances';
+    let ordonnances = PD_DASH.storage.get(KEY, [
+      { id:'1', patient:'M. HOUNKPATIN Jean', doctor:'Dr. AGOSSOU', date:'2026-07-20', meds:[{name:'Paracetamol 500mg',qty:2}], status:'validee' },
+      { id:'2', patient:'Mme AHOUANDJINOU', doctor:'Dr. DA SILVA', date:'2026-07-22', meds:[{name:'Amoxicilline 500mg',qty:1},{name:'Ibuprofene 400mg',qty:1}], status:'validee' },
+      { id:'3', patient:'M. TOSSOU', doctor:'Dr. ADEDJI', date:'2026-07-24', meds:[{name:'Artemether-Lumefantrine',qty:1}], status:'attente' }
+    ]);
+    PD_DASH.storage.set(KEY, ordonnances);
+
+    function render() {
+      document.getElementById('ord-tbody').innerHTML = ordonnances.map(o => `
+        <tr>
+          <td><strong>${o.patient}</strong></td>
+          <td>${o.doctor}</td>
+          <td>${PD_DASH.formatDate(o.date)}</td>
+          <td>${o.meds.map(m => `<span class="badge badge-primary" style="margin-right:4px;">${m.name}</span>`).join('')}</td>
+          <td><span class="badge ${o.status === 'validee' ? 'badge-success' : 'badge-warning'}">${o.status === 'validee' ? 'Validee' : 'En attente'}</span></td>
+          <td><button class="btn-icon"><i data-lucide="eye"></i></button><button class="btn-icon"><i data-lucide="printer"></i></button></td>
+        </tr>`).join('');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function addMedRow() {
+      const list = document.getElementById('med-list');
+      const row = document.createElement('div');
+      row.className = 'med-row';
+      row.innerHTML = `
+        <input type="text" class="form-input" placeholder="Nom du medicament" required>
+        <input type="number" class="form-input" placeholder="Qte" min="1" value="1">
+        <input type="text" class="form-input" placeholder="Posologie (ex: 1 matin, 1 soir)">
+        <input type="number" class="form-input" placeholder="Duree (j)" min="1" value="7">
+        <button type="button" class="btn-icon danger" onclick="this.parentElement.remove()"><i data-lucide="x"></i></button>`;
+      list.appendChild(row);
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    document.getElementById('btn-new').addEventListener('click', () => {
+      document.getElementById('ord-form').reset();
+      document.getElementById('presc-date').value = PD_DASH.todayISO();
+      document.getElementById('med-list').innerHTML = '';
+      addMedRow();
+      document.getElementById('ord-modal').classList.add('show');
+    });
+
+    document.getElementById('btn-add-med').addEventListener('click', addMedRow);
+
+    document.getElementById('btn-check-inter').addEventListener('click', () => {
+      PD_DASH.toast('Verification des interactions : aucune interaction majeure detectee', 'success');
+    });
+
+    document.getElementById('ord-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const meds = Array.from(document.querySelectorAll('.med-row')).map(r => {
+        const inputs = r.querySelectorAll('input');
+        return { name: inputs[0].value, qty: parseInt(inputs[1].value) };
+      }).filter(m => m.name);
+      if (!meds.length) { PD_DASH.toast('Ajoutez au moins un medicament', 'warning'); return; }
+      ordonnances.unshift({
+        id: PD_DASH.uuid(),
+        patient: document.getElementById('patient-name').value,
+        doctor: document.getElementById('doctor').value,
+        date: document.getElementById('presc-date').value,
+        meds, status: 'validee'
+      });
+      PD_DASH.storage.set(KEY, ordonnances);
+      document.getElementById('ord-modal').classList.remove('show');
+      render();
+      PD_DASH.toast('Ordonnance enregistree', 'success');
+    });
+
+    render();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parametres - Pharmacie Digitale</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/dashboard.css">
+<link rel="stylesheet" href="../assets/css/register.css">
+<style>
+.settings-tabs{display:flex;gap:4px;border-bottom:2px solid var(--color-border);margin-bottom:24px;overflow-x:auto;}
+.tab-btn{padding:12px 20px;background:transparent;border:none;font-size:14px;font-weight:500;color:var(--color-text-medium);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;}
+.tab-btn:hover{color:var(--color-text-dark);}
+.tab-btn.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fade-in 0.3s ease;}
+.ia-provider-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--color-bg-light);border-radius:var(--radius-md);margin-bottom:8px;}
+</style>
+</head>
+<body class="dashboard-body">
+<aside class="dash-sidebar">
+<a href="index.html" class="brand"><span class="brand-icon"><i data-lucide="pill"></i></span> Pharmacie Digitale</a>
+<div class="dash-nav-section">Principal</div>
+<ul class="dash-nav">
+<li><a href="index.html"><i data-lucide="layout-dashboard"></i> Tableau de bord</a></li>
+<li><a href="pos.html"><i data-lucide="shopping-cart"></i> Caisse POS</a></li>
+<li><a href="stock.html"><i data-lucide="package"></i> Stock</a></li>
+<li><a href="ordonnances.html"><i data-lucide="file-text"></i> Ordonnances</a></li>
+</ul>
+<div class="dash-nav-section">Gestion</div>
+<ul class="dash-nav">
+<li><a href="suppliers.html"><i data-lucide="truck"></i> Fournisseurs</a></li>
+<li><a href="accounting.html"><i data-lucide="calculator"></i> Comptabilite</a></li>
+<li><a href="reports.html"><i data-lucide="bar-chart-3"></i> Rapports &amp; BI</a></li>
+</ul>
+<div class="dash-nav-section">Configuration</div>
+<ul class="dash-nav">
+<li><a href="add-pharmacy.html"><i data-lucide="plus-circle"></i> Ajouter pharmacie</a></li>
+<li><a href="settings.html" class="active"><i data-lucide="settings"></i> Parametres</a></li>
+<li><a href="#" data-action="logout"><i data-lucide="log-out"></i> Deconnexion</a></li>
+</ul>
+</aside>
+<div class="dash-main">
+<header class="dash-topbar">
+<button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+<div class="search-bar"><i data-lucide="search"></i><input type="text" placeholder="Rechercher..."></div>
+<div class="topbar-actions"><button class="icon-btn"><i data-lucide="bell"></i><span class="dot"></span></button><div class="user-avatar">MS</div></div>
+</header>
+<div class="dash-content" style="max-width:1000px;">
+<div class="dash-page-title"><div><h1>Parametres</h1><p>Configurez votre compte, votre pharmacie et vos integrations.</p></div></div>
+<div class="dash-card">
+<div class="settings-tabs">
+<button class="tab-btn active" data-tab="profile"><i data-lucide="user" style="width:14px;height:14px;"></i> Profil</button>
+<button class="tab-btn" data-tab="pharmacy"><i data-lucide="building-2" style="width:14px;height:14px;"></i> Pharmacie</button>
+<button class="tab-btn" data-tab="ai"><i data-lucide="bot" style="width:14px;height:14px;"></i> API IA</button>
+<button class="tab-btn" data-tab="payments"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Paiements</button>
+<button class="tab-btn" data-tab="security"><i data-lucide="shield" style="width:14px;height:14px;"></i> Securite</button>
+</div>
+<div class="tab-panel active" data-panel="profile">
+<div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--color-border);">
+<div style="width:80px;height:80px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:700;">MS</div>
+<div style="flex:1;"><h3 style="margin:0;font-size:18px;">Moukoddi Sadikou</h3><p style="margin:4px 0;color:var(--color-text-medium);font-size:14px;">Pharmacien titulaire</p><button class="btn btn-secondary" style="padding:6px 12px;font-size:13px;"><i data-lucide="upload"></i> Changer photo</button></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group"><label class="form-label">Nom complet</label><input type="text" class="form-input" value="Moukoddi Sadikou"></div>
+<div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" value="moukoddims@gmail.com"></div>
+<div class="form-group"><label class="form-label">Telephone</label><input type="tel" class="form-input" value="+229 01 97 48 88 05"></div>
+<div class="form-group"><label class="form-label">Langue</label><select class="form-select"><option>Francais</option><option>English</option></select></div>
+</div>
+<button class="btn btn-primary"><i data-lucide="save"></i> Enregistrer</button>
+</div>
+<div class="tab-panel" data-panel="pharmacy">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group"><label class="form-label">Nom de la pharmacie</label><input type="text" class="form-input" value="Pharmacie du Centre"></div>
+<div class="form-group"><label class="form-label">Numero agrement</label><input type="text" class="form-input" placeholder="OP-BJ-2025-001"></div>
+<div class="form-group"><label class="form-label">Adresse</label><input type="text" class="form-input" value="Ganhi, Cotonou"></div>
+<div class="form-group"><label class="form-label">Devise</label><select class="form-select"><option>FCFA (XOF)</option><option>EUR</option><option>USD</option></select></div>
+</div>
+<a href="add-pharmacy.html" class="btn btn-secondary"><i data-lucide="plus"></i> Ajouter une autre officine</a>
+</div>
+<div class="tab-panel" data-panel="ai">
+<p style="color:var(--color-text-medium);margin-bottom:16px;">Connectez n'importe quelle IA via notre API universelle.</p>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:8px;background:#10A37F;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">GPT</div><div><strong>ChatGPT</strong><div style="font-size:12px;color:var(--color-text-light);">OpenAI</div></div></div><span class="badge">Inactif</span></div>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:8px;background:#D4A374;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">C</div><div><strong>Claude</strong><div style="font-size:12px;color:var(--color-text-light);">Anthropic</div></div></div><span class="badge badge-success">Actif</span></div>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:8px;background:#7C3AED;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">K</div><div><strong>Kimi AI</strong><div style="font-size:12px;color:var(--color-text-light);">Moonshot</div></div></div><span class="badge">Inactif</span></div>
+<h4 style="margin-top:24px;font-size:15px;">Cle API</h4>
+<div style="display:flex;gap:8px;margin-top:8px;">
+<input type="text" class="form-input" value="pk_live_pd_a1b2c3d4e5f6g7h8i9j0" readonly style="font-family:monospace;font-size:13px;">
+<button class="btn btn-secondary" onclick="navigator.clipboard.writeText(this.previousElementSibling.value);PD_DASH.toast('Cle copiee','success')"><i data-lucide="copy"></i></button>
+</div>
+<h4 style="margin-top:24px;font-size:15px;">Endpoint API</h4>
+<code style="display:block;padding:12px;background:var(--color-bg-dark);color:#38BDF8;border-radius:8px;font-size:13px;">POST /api/v1/ia/nlp/command</code>
+<h4 style="margin-top:24px;font-size:15px;">Webhook URL</h4>
+<input type="url" class="form-input" placeholder="https://votre-ia.com/webhook">
+<button class="btn btn-primary" style="margin-top:12px;"><i data-lucide="save"></i> Sauvegarder</button>
+</div>
+<div class="tab-panel" data-panel="payments">
+<p style="color:var(--color-text-medium);margin-bottom:16px;">Passerelles Mobile Money.</p>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><i data-lucide="smartphone" style="color:#0EA5E9;"></i><strong>Wave</strong></div><span class="badge badge-success">Actif</span></div>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><i data-lucide="smartphone" style="color:#F59E0B;"></i><strong>Orange Money</strong></div><span class="badge badge-success">Actif</span></div>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><i data-lucide="smartphone" style="color:#10B981;"></i><strong>Moov Money</strong></div><span class="badge">Inactif</span></div>
+<div class="ia-provider-card"><div style="display:flex;align-items:center;gap:12px;"><i data-lucide="smartphone" style="color:#EF4444;"></i><strong>MTN MoMo</strong></div><span class="badge">Inactif</span></div>
+</div>
+<div class="tab-panel" data-panel="security">
+<div class="form-group"><label class="form-label">Ancien mot de passe</label><input type="password" class="form-input"></div>
+<div class="form-group"><label class="form-label">Nouveau mot de passe</label><input type="password" class="form-input"></div>
+<div class="form-group"><label class="form-label">Confirmer</label><input type="password" class="form-input"></div>
+<button class="btn btn-primary"><i data-lucide="key"></i> Changer le mot de passe</button>
+<h4 style="margin-top:32px;font-size:15px;">2FA</h4>
+<p style="color:var(--color-text-medium);font-size:14px;">Ajoutez une securite supplementaire.</p>
+<button class="btn btn-secondary"><i data-lucide="shield-check"></i> Activer la 2FA</button>
+</div>
+</div>
+</div>
+</div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+btn.classList.add('active');
+document.querySelector('.tab-panel[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
+});
+});
+</script>
+</body>
+</html>

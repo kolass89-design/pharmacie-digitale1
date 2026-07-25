@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pharmacie Digitale - Plateforme SaaS de gestion de pharmacies et verification de stock en temps reel.">
+  <title>Pharmacie Digitale - Plateforme SaaS de gestion pharmaceutique</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="premium-bg"><div class="blob-accent"></div></div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand">
+        <span class="brand-icon"><i data-lucide="pill"></i></span>
+        Pharmacie Digitale
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#features">Fonctionnalites</a></li>
+          <li><a href="#pricing">Tarifs</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="btn btn-ghost">Se connecter</a>
+        <a href="register.html" class="btn btn-primary">S'inscrire</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 120px; padding-bottom: 80px;">
+    <section class="container" style="max-width: 1200px; text-align: center; color: white;">
+      <div data-aos="fade-up">
+        <span class="badge badge-primary" style="padding: 8px 16px; margin-bottom: 24px;">
+          <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Plateforme SaaS Premium
+        </span>
+        <h1 style="font-size: clamp(36px, 6vw, 64px); font-weight: 700; line-height: 1.1; margin-bottom: 24px; color: white;">
+          La <span class="text-gradient">pharmacie digitale</span><br>de l'Afrique moderne
+        </h1>
+        <p style="font-size: 18px; color: rgba(255,255,255,0.75); max-width: 720px; margin: 0 auto 40px; line-height: 1.6;">
+          Verifiez la disponibilite de vos medicaments en temps reel.
+          Gerez votre pharmacie, votre stock, vos ventes et votre comptabilite depuis une seule plateforme.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="register.html" class="btn btn-primary btn-lg">
+            <i data-lucide="rocket"></i> Commencer gratuitement
+          </a>
+          <a href="#features" class="btn btn-ghost btn-lg">
+            <i data-lucide="play"></i> Voir la demo
+          </a>
+        </div>
+      </div>
+
+      <div id="features" style="margin-top: 100px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div class="glass" style="padding: 32px; text-align: left; color: white;" data-aos="fade-up" data-aos-delay="100">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+            <i data-lucide="search"></i>
+          </div>
+          <h3 style="color:white;font-size:20px;margin-bottom:8px;">Recherche en temps reel</h3>
+          <p style="color:rgba(255,255,255,0.7);font-size:14px;">Trouvez le medicament dont vous avez besoin dans les pharmacies proches en un instant.</p>
+        </div>
+        <div class="glass" style="padding: 32px; text-align: left; color: white;" data-aos="fade-up" data-aos-delay="200">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--gradient-accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+            <i data-lucide="package"></i>
+          </div>
+          <h3 style="color:white;font-size:20px;margin-bottom:8px;">Gestion complete</h3>
+          <p style="color:rgba(255,255,255,0.7);font-size:14px;">Stock, POS, ordonnances, fournisseurs, comptabilite SYSCOHADA - tout dans un seul outil.</p>
+        </div>
+        <div class="glass" style="padding: 32px; text-align: left; color: white;" data-aos="fade-up" data-aos-delay="300">
+          <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#F59E0B,#EF4444);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+            <i data-lucide="bot"></i>
+          </div>
+          <h3 style="color:white;font-size:20px;margin-bottom:8px;">API IA universelle</h3>
+          <p style="color:rgba(255,255,255,0.7);font-size:14px;">Connectez ChatGPT, Claude, Kimi ou toute autre IA pour automatiser votre pharmacie.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-icon"><i data-lucide="pill"></i></span>
+          Pharmacie Digitale
+        </div>
+        <p class="footer-tagline">La plateforme SaaS de reference pour la gestion pharmaceutique en Afrique.</p>
+      </div>
+      <div>
+        <h5>Produit</h5>
+        <ul>
+          <li><a href="#features">Fonctionnalites</a></li>
+          <li><a href="#pricing">Tarifs</a></li>
+          <li><a href="register.html">S'inscrire</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Ressources</h5>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-dev-card">
+        <h6>👨‍💻 Developpeur</h6>
+        <ul class="footer-contact-list">
+          <li><a href="tel:+22901974888805"><i data-lucide="phone"></i>+229 01 97 48 88 05</a></li>
+          <li><a href="https://wa.me/22997488805" target="_blank" rel="noopener"><i data-lucide="message-circle"></i>WhatsApp : +229 97 48 88 05</a></li>
+          <li><a href="mailto:moukoddims@gmail.com"><i data-lucide="mail"></i>moukoddims@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      Developpe avec <span class="heart">❤</span> par <strong>Moukoddi</strong> &middot; © 2026 Pharmacie Digitale
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

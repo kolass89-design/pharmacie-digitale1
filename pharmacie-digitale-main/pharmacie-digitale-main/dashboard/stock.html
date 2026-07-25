@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock - Pharmacie Digitale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/register.css">
+  <style>
+    .stock-toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .stock-toolbar input, .stock-toolbar select { padding: 10px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: 14px; outline: none; }
+    .stock-toolbar input:focus, .stock-toolbar select:focus { border-color: var(--color-primary); }
+    .stock-toolbar .search-input { flex: 1; min-width: 200px; }
+    .modal-form { max-width: 600px; text-align: left; }
+    .modal-form h2 { text-align: center; }
+  </style>
+</head>
+<body class="dashboard-body">
+
+  <aside class="dash-sidebar">
+    <a href="index.html" class="brand"><span class="brand-icon"><i data-lucide="pill"></i></span> Pharmacie Digitale</a>
+    <div class="dash-nav-section">Principal</div>
+    <ul class="dash-nav">
+      <li><a href="index.html"><i data-lucide="layout-dashboard"></i> Tableau de bord</a></li>
+      <li><a href="pos.html"><i data-lucide="shopping-cart"></i> Caisse POS</a></li>
+      <li><a href="stock.html" class="active"><i data-lucide="package"></i> Stock</a></li>
+      <li><a href="ordonnances.html"><i data-lucide="file-text"></i> Ordonnances</a></li>
+    </ul>
+    <div class="dash-nav-section">Gestion</div>
+    <ul class="dash-nav">
+      <li><a href="suppliers.html"><i data-lucide="truck"></i> Fournisseurs</a></li>
+      <li><a href="accounting.html"><i data-lucide="calculator"></i> Comptabilite</a></li>
+      <li><a href="reports.html"><i data-lucide="bar-chart-3"></i> Rapports &amp; BI</a></li>
+    </ul>
+    <div class="dash-nav-section">Configuration</div>
+    <ul class="dash-nav">
+      <li><a href="add-pharmacy.html"><i data-lucide="plus-circle"></i> Ajouter pharmacie</a></li>
+      <li><a href="settings.html"><i data-lucide="settings"></i> Parametres</a></li>
+      <li><a href="#" data-action="logout"><i data-lucide="log-out"></i> Deconnexion</a></li>
+    </ul>
+  </aside>
+
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+      <div class="search-bar"><i data-lucide="search"></i><input type="text" placeholder="Rechercher..."></div>
+      <div class="topbar-actions">
+        <button class="icon-btn"><i data-lucide="bell"></i><span class="dot"></span></button>
+        <div class="user-avatar">MS</div>
+      </div>
+    </header>
+
+    <div class="dash-content">
+      <div class="dash-page-title">
+        <div>
+          <h1>Gestion du stock</h1>
+          <p>Suivi FEFO, alertes peremption et rupture, categorisation DCI.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" id="btn-import"><i data-lucide="upload"></i> Importer CSV</button>
+          <button class="btn btn-secondary" id="btn-export"><i data-lucide="download"></i> Exporter</button>
+          <button class="btn btn-primary" id="btn-add"><i data-lucide="plus"></i> Ajouter un produit</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-icon"><i data-lucide="package"></i></div><div class="kpi-label">Produits en stock</div><div class="kpi-value" id="kpi-total">0</div></div>
+        <div class="kpi-card warning"><div class="kpi-icon"><i data-lucide="alert-triangle"></i></div><div class="kpi-label">Stock faible</div><div class="kpi-value" id="kpi-low">0</div></div>
+        <div class="kpi-card warning"><div class="kpi-icon"><i data-lucide="calendar-x"></i></div><div class="kpi-label">Peremption &lt; 30j</div><div class="kpi-value" id="kpi-expiring">0</div></div>
+        <div class="kpi-card danger"><div class="kpi-icon"><i data-lucide="x-circle"></i></div><div class="kpi-label">Ruptures</div><div class="kpi-value" id="kpi-out">0</div></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="stock-toolbar">
+          <input type="text" class="search-input" id="search" placeholder="Rechercher un produit (nom, DCI, code-barres)...">
+          <select id="filter-status">
+            <option value="">Tous les statuts</option>
+            <option value="available">En stock</option>
+            <option value="low_stock">Stock faible</option>
+            <option value="expiring">Perime bientot</option>
+            <option value="out_of_stock">Rupture</option>
+          </select>
+          <select id="filter-category">
+            <option value="">Toutes categories</option>
+            <option value="Antalgique">Antalgique</option>
+            <option value="Antibiotique">Antibiotique</option>
+            <option value="Anti-inflammatoire">Anti-inflammatoire</option>
+            <option value="Vitamine">Vitamine</option>
+            <option value="Antipaludique">Antipaludique</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="dash-table" id="stock-table">
+            <thead>
+              <tr>
+                <th>Produit / DCI</th><th>Categorie</th><th>Qte</th><th>Seuil</th>
+                <th>Statut</th><th>Lot</th><th>Peremption</th><th>Prix</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="stock-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADD/EDIT -->
+  <div class="modal-backdrop" id="product-modal">
+    <div class="modal-success modal-form">
+      <h2 id="modal-title" style="text-align:left;">Ajouter un produit</h2>
+      <form id="product-form" style="text-align:left;margin-top:16px;">
+        <input type="hidden" id="product-id">
+        <div class="form-group">
+          <label class="form-label">Nom du produit <span class="required">*</span></label>
+          <input type="text" id="product-name" class="form-input" placeholder="Ex : Paracetamol 500mg" required>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">DCI</label>
+            <input type="text" id="product-dci" class="form-input" placeholder="Paracetamol">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categorie <span class="required">*</span></label>
+            <select id="product-category" class="form-select" required>
+              <option>Antalgique</option><option>Antibiotique</option><option>Anti-inflammatoire</option>
+              <option>Vitamine</option><option>Antipaludique</option><option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Quantite <span class="required">*</span></label>
+            <input type="number" id="product-quantity" class="form-input" min="0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Seuil</label>
+            <input type="number" id="product-threshold" class="form-input" min="0" value="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prix (FCFA) <span class="required">*</span></label>
+            <input type="number" id="product-price" class="form-input" min="0" value="0" required>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Numero de lot</label>
+            <input type="text" id="product-lot" class="form-input" placeholder="LOT-2026-001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de peremption</label>
+            <input type="date" id="product-expiry" class="form-input">
+          </div>
+        </div>
+        <label class="form-checkbox">
+          <input type="checkbox" id="product-prescription">
+          <span>Necessite une ordonnance</span>
+        </label>
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <button type="button" class="btn btn-secondary" style="flex:1;" onclick="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;"><i data-lucide="save"></i> Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script src="../assets/js/stock-manager.js"></script>
+  <script>
+  (function() {
+    const STORAGE_KEY = 'pd_stock';
+    let stock = PD_DASH.storage.get(STORAGE_KEY, seedData());
+    PD_DASH.storage.set(STORAGE_KEY, stock);
+
+    function seedData() {
+      const today = new Date();
+      const inDays = (d) => { const x = new Date(today); x.setDate(x.getDate()+d); return x.toISOString().slice(0,10); };
+      return [
+        { id:'1', name:'Paracetamol 500mg', dci:'Paracetamol', category:'Antalgique', quantity:150, threshold:20, price:1500, lot:'LOT-2026-001', expiry_date:inDays(400), prescription:false },
+        { id:'2', name:'Amoxicilline 500mg', dci:'Amoxicilline', category:'Antibiotique', quantity:30, threshold:20, price:4500, lot:'LOT-2026-002', expiry_date:inDays(300), prescription:true },
+        { id:'3', name:'Ibuprofene 400mg', dci:'Ibuprofene', category:'Anti-inflammatoire', quantity:45, threshold:15, price:3500, lot:'LOT-2026-003', expiry_date:inDays(25), prescription:false },
+        { id:'4', name:'Vitamine C 1000mg', dci:'Acide ascorbique', category:'Vitamine', quantity:200, threshold:30, price:2000, lot:'LOT-2026-004', expiry_date:inDays(500), prescription:false },
+        { id:'5', name:'Aspirine 500mg', dci:'Acide acetylsalicylique', category:'Antalgique', quantity:0, threshold:20, price:1200, lot:'LOT-2025-089', expiry_date:inDays(-10), prescription:false },
+        { id:'6', name:'Artemether-Lumefantrine', dci:'Artemether/Lumefantrine', category:'Antipaludique', quantity:60, threshold:25, price:6500, lot:'LOT-2026-005', expiry_date:inDays(180), prescription:true },
+        { id:'7', name:'Ciprofloxacine 500mg', dci:'Ciprofloxacine', category:'Antibiotique', quantity:12, threshold:20, price:5500, lot:'LOT-2026-006', expiry_date:inDays(90), prescription:true },
+        { id:'8', name:'Diclofenac 50mg', dci:'Diclofenac', category:'Anti-inflammatoire', quantity:55, threshold:15, price:3200, lot:'LOT-2026-007', expiry_date:inDays(220), prescription:false }
+      ];
+    }
+
+    function daysUntil(date) {
+      return Math.ceil((new Date(date) - new Date()) / 86400000);
+    }
+
+    function getStatus(item) {
+      if (item.quantity === 0) return { key:'out_of_stock', label:'Rupture', class:'badge-danger' };
+      if (item.quantity <= item.threshold) return { key:'low_stock', label:'Stock faible', class:'badge-warning' };
+      const d = daysUntil(item.expiry_date);
+      if (d <= 0) return { key:'expiring', label:'Perime', class:'badge-danger' };
+      if (d <= 30) return { key:'expiring', label:'Perime bientot', class:'badge-warning' };
+      return { key:'available', label:'OK', class:'badge-success' };
+    }
+
+    function renderStats() {
+      document.getElementById('kpi-total').textContent = PD_DASH.formatNumber(stock.length);
+      document.getElementById('kpi-low').textContent = stock.filter(i => i.quantity > 0 && i.quantity <= i.threshold).length;
+      document.getElementById('kpi-expiring').textContent = stock.filter(i => { const d = daysUntil(i.expiry_date); return d > 0 && d <= 30; }).length;
+      document.getElementById('kpi-out').textContent = stock.filter(i => i.quantity === 0).length;
+    }
+
+    function renderTable() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const fs = document.getElementById('filter-status').value;
+      const fc = document.getElementById('filter-category').value;
+
+      const filtered = stock.filter(item => {
+        if (q && !item.name.toLowerCase().includes(q) && !(item.dci||'').toLowerCase().includes(q)) return false;
+        if (fs && getStatus(item).key !== fs) return false;
+        if (fc && item.category !== fc) return false;
+        return true;
+      });
+
+      const tbody = document.getElementById('stock-tbody');
+      tbody.innerHTML = filtered.map(item => {
+        const status = getStatus(item);
+        const d = daysUntil(item.expiry_date);
+        const rowClass = item.quantity === 0 ? 'row-danger' : (item.quantity <= item.threshold || (d>0 && d<=30) ? 'row-warning' : '');
+        return `<tr class="${rowClass}">
+          <td><strong>${item.name}</strong><div style="font-size:12px;color:var(--color-text-light);">${item.dci || '-'}</div></td>
+          <td><span class="badge badge-primary">${item.category}</span></td>
+          <td><strong>${item.quantity}</strong></td>
+          <td>${item.threshold}</td>
+          <td><span class="badge ${status.class}">${status.label}</span></td>
+          <td><code style="font-size:12px;">${item.lot || 'N/A'}</code></td>
+          <td>${PD_DASH.formatDate(item.expiry_date)}</td>
+          <td><strong>${PD_DASH.formatNumber(item.price)} FCFA</strong></td>
+          <td>
+            <button class="btn-icon" onclick="editProduct('${item.id}')"><i data-lucide="edit-2"></i></button>
+            <button class="btn-icon danger" onclick="deleteProduct('${item.id}')"><i data-lucide="trash-2"></i></button>
+          </td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--color-text-light);">Aucun produit trouve</td></tr>';
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById('product-modal');
+      const form = document.getElementById('product-form');
+      form.reset();
+      document.getElementById('product-id').value = '';
+      document.getElementById('modal-title').textContent = 'Ajouter un produit';
+      if (id) {
+        const item = stock.find(s => s.id === id);
+        if (item) {
+          document.getElementById('modal-title').textContent = 'Modifier ' + item.name;
+          document.getElementById('product-id').value = item.id;
+          document.getElementById('product-name').value = item.name;
+          document.getElementById('product-dci').value = item.dci || '';
+          document.getElementById('product-category').value = item.category;
+          document.getElementById('product-quantity').value = item.quantity;
+          document.getElementById('product-threshold').value = item.threshold;
+          document.getElementById('product-price').value = item.price;
+          document.getElementById('product-lot').value = item.lot || '';
+          document.getElementById('product-expiry').value = item.expiry_date;
+          document.getElementById('product-prescription').checked = item.prescription;
+        }
+      }
+      modal.classList.add('show');
+    }
+
+    window.closeModal = () => document.getElementById('product-modal').classList.remove('show');
+    window.editProduct = openModal;
+    window.deleteProduct = (id) => {
+      if (!confirm('Supprimer ce produit ?')) return;
+      stock = stock.filter(s => s.id !== id);
+      PD_DASH.storage.set(STORAGE_KEY, stock);
+      renderStats(); renderTable();
+      PD_DASH.toast('Produit supprime', 'success');
+    };
+
+    document.getElementById('product-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('product-id').value;
+      const data = {
+        id: id || PD_DASH.uuid(),
+        name: document.getElementById('product-name').value,
+        dci: document.getElementById('product-dci').value,
+        category: document.getElementById('product-category').value,
+        quantity: parseInt(document.getElementById('product-quantity').value),
+        threshold: parseInt(document.getElementById('product-threshold').value),
+        price: parseInt(document.getElementById('product-price').value),
+        lot: document.getElementById('product-lot').value,
+        expiry_date: document.getElementById('product-expiry').value,
+        prescription: document.getElementById('product-prescription').checked
+      };
+      if (id) {
+        stock = stock.map(s => s.id === id ? data : s);
+      } else {
+        stock.push(data);
+      }
+      PD_DASH.storage.set(STORAGE_KEY, stock);
+      renderStats(); renderTable();
+      closeModal();
+      PD_DASH.toast(id ? 'Produit mis a jour' : 'Produit ajoute', 'success');
+    });
+
+    document.getElementById('btn-add').addEventListener('click', () => openModal());
+    document.getElementById('search').addEventListener('input', renderTable);
+    document.getElementById('filter-status').addEventListener('change', renderTable);
+    document.getElementById('filter-category').addEventListener('change', renderTable);
+
+    document.getElementById('btn-export').addEventListener('click', () => {
+      const csv = ['Nom;DCI;Categorie;Quantite;Seuil;Prix;Lot;Peremption'].concat(
+        stock.map(s => [s.name, s.dci, s.category, s.quantity, s.threshold, s.price, s.lot, s.expiry_date].join(';'))
+      ).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'stock_' + PD_DASH.todayISO() + '.csv'; a.click();
+      URL.revokeObjectURL(url);
+      PD_DASH.toast('Export CSV telecharge', 'success');
+    });
+
+    document.getElementById('btn-import').addEventListener('click', () => PD_DASH.toast('Import CSV bientot disponible', 'info'));
+
+    renderStats();
+    renderTable();
+  })();
+  </script>
+</body>
+</html>

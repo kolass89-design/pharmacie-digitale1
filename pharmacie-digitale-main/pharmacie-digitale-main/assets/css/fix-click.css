@@ -1,0 +1,42 @@
+/* ============================================================
+   FIX CLICKABILITY - Chargé après style.css sur toutes les pages
+   ============================================================ */
+
+/* Empêche le fond animé de bloquer les clics */
+.premium-bg,
+.premium-bg *,
+.premium-bg::before,
+.premium-bg::after {
+  pointer-events: none !important;
+}
+
+/* Sécurité : force la visibilité des éléments AOS même si le script ne charge pas */
+[data-aos] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Quand AOS est chargé et actif, il applique .aos-init qui recache */
+.aos-init[data-aos] {
+  opacity: 0;
+}
+
+.aos-animate[data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Garantit que les boutons sont toujours au-dessus et cliquables */
+.btn,
+.btn-oauth,
+.btn-icon,
+ a.btn,
+ a[href] {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header au-dessus de tout */
+.site-header {
+  z-index: 1000 !important;
+}

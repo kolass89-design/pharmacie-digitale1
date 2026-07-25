@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fournisseurs - Pharmacie Digitale</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/dashboard.css">
+<link rel="stylesheet" href="../assets/css/register.css">
+</head>
+<body class="dashboard-body">
+<aside class="dash-sidebar">
+<a href="index.html" class="brand"><span class="brand-icon"><i data-lucide="pill"></i></span> Pharmacie Digitale</a>
+<div class="dash-nav-section">Principal</div>
+<ul class="dash-nav">
+<li><a href="index.html"><i data-lucide="layout-dashboard"></i> Tableau de bord</a></li>
+<li><a href="pos.html"><i data-lucide="shopping-cart"></i> Caisse POS</a></li>
+<li><a href="stock.html"><i data-lucide="package"></i> Stock</a></li>
+<li><a href="ordonnances.html"><i data-lucide="file-text"></i> Ordonnances</a></li>
+</ul>
+<div class="dash-nav-section">Gestion</div>
+<ul class="dash-nav">
+<li><a href="suppliers.html" class="active"><i data-lucide="truck"></i> Fournisseurs</a></li>
+<li><a href="accounting.html"><i data-lucide="calculator"></i> Comptabilite</a></li>
+<li><a href="reports.html"><i data-lucide="bar-chart-3"></i> Rapports &amp; BI</a></li>
+</ul>
+<div class="dash-nav-section">Configuration</div>
+<ul class="dash-nav">
+<li><a href="add-pharmacy.html"><i data-lucide="plus-circle"></i> Ajouter pharmacie</a></li>
+<li><a href="settings.html"><i data-lucide="settings"></i> Parametres</a></li>
+<li><a href="#" data-action="logout"><i data-lucide="log-out"></i> Deconnexion</a></li>
+</ul>
+</aside>
+<div class="dash-main">
+<header class="dash-topbar">
+<button class="sidebar-toggle"><i data-lucide="menu"></i></button>
+<div class="search-bar"><i data-lucide="search"></i><input type="text" placeholder="Rechercher fournisseur..."></div>
+<div class="topbar-actions"><button class="icon-btn"><i data-lucide="bell"></i><span class="dot"></span></button><div class="user-avatar">MS</div></div>
+</header>
+<div class="dash-content">
+<div class="dash-page-title">
+<div><h1>Fournisseurs &amp; Achats</h1><p>Gerez vos fournisseurs, bons de commande et receptions.</p></div>
+<button class="btn btn-primary" id="btn-new-supplier"><i data-lucide="plus"></i> Ajouter un fournisseur</button>
+</div>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="kpi-icon"><i data-lucide="truck"></i></div><div class="kpi-label">Fournisseurs actifs</div><div class="kpi-value" id="kpi-suppliers">0</div></div>
+<div class="kpi-card success"><div class="kpi-icon"><i data-lucide="clipboard-check"></i></div><div class="kpi-label">Commandes recues</div><div class="kpi-value">12</div></div>
+<div class="kpi-card warning"><div class="kpi-icon"><i data-lucide="clock"></i></div><div class="kpi-label">En attente</div><div class="kpi-value">3</div></div>
+<div class="kpi-card"><div class="kpi-icon"><i data-lucide="wallet"></i></div><div class="kpi-label">Achats du mois</div><div class="kpi-value">1.2M F</div></div>
+</div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;">
+<div class="dash-card">
+<div class="dash-card-header"><h3>Fournisseurs</h3></div>
+<div style="overflow-x:auto;">
+<table class="dash-table">
+<thead><tr><th>Fournisseur</th><th>Contact</th><th>Ville</th><th>Derniere cmd.</th><th>Statut</th><th></th></tr></thead>
+<tbody id="suppliers-tbody"></tbody>
+</table>
+</div>
+</div>
+<div class="dash-card">
+<div class="dash-card-header"><h3>Commandes recentes</h3></div>
+<ul style="list-style:none;padding:0;margin:0;">
+<li style="padding:12px 0;border-bottom:1px solid var(--color-border);"><div style="display:flex;justify-content:space-between;"><strong style="font-size:14px;">CMD-2026-042</strong><span class="badge badge-success">Recue</span></div><div style="font-size:12px;color:var(--color-text-medium);">UbiPharm - 245 000 FCFA</div></li>
+<li style="padding:12px 0;border-bottom:1px solid var(--color-border);"><div style="display:flex;justify-content:space-between;"><strong style="font-size:14px;">CMD-2026-041</strong><span class="badge badge-warning">Attente</span></div><div style="font-size:12px;color:var(--color-text-medium);">Copharm - 320 000 FCFA</div></li>
+<li style="padding:12px 0;"><div style="display:flex;justify-content:space-between;"><strong style="font-size:14px;">CMD-2026-040</strong><span class="badge badge-success">Recue</span></div><div style="font-size:12px;color:var(--color-text-medium);">Laborex - 178 500 FCFA</div></li>
+</ul>
+<button class="btn btn-primary btn-block" style="margin-top:12px;"><i data-lucide="plus"></i> Nouvelle commande</button>
+</div>
+</div>
+</div>
+</div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script>
+(function(){
+const KEY='pd_suppliers';
+let suppliers=PD_DASH.storage.get(KEY,[
+{id:'1',name:'UbiPharm Benin',contact:'Ismael KODJO',phone:'+229 21 30 45 67',city:'Cotonou',last_order:'2026-07-22',active:true},
+{id:'2',name:'Copharm',contact:'Aline AZANMASSO',phone:'+229 21 31 78 90',city:'Cotonou',last_order:'2026-07-21',active:true},
+{id:'3',name:'Laborex CI',contact:'Kouassi BROU',phone:'+225 27 20 22 11 22',city:'Abidjan',last_order:'2026-07-19',active:true},
+{id:'4',name:'Pharmapro Senegal',contact:'Fatou DIOP',phone:'+221 33 821 45 67',city:'Dakar',last_order:'2026-07-15',active:true},
+{id:'5',name:'AfricaMed',contact:'Kwame ASANTE',phone:'+233 30 276 12 34',city:'Accra',last_order:'2026-06-28',active:false}
+]);
+PD_DASH.storage.set(KEY,suppliers);
+function render(){
+document.getElementById('kpi-suppliers').textContent=suppliers.filter(s=>s.active).length;
+document.getElementById('suppliers-tbody').innerHTML=suppliers.map(s=>`<tr><td><strong>${s.name}</strong></td><td>${s.contact}<div style="font-size:12px;color:var(--color-text-light);">${s.phone}</div></td><td>${s.city}</td><td>${PD_DASH.formatDate(s.last_order)}</td><td><span class="badge ${s.active?'badge-success':'badge-danger'}">${s.active?'Actif':'Inactif'}</span></td><td><button class="btn-icon"><i data-lucide="edit-2"></i></button><button class="btn-icon"><i data-lucide="shopping-cart"></i></button></td></tr>`).join('');
+if(window.lucide)window.lucide.createIcons();
+}
+document.getElementById('btn-new-supplier').addEventListener('click',()=>{
+const name=prompt('Nom du fournisseur ?');if(!name)return;
+const contact=prompt('Nom du contact ?')||'';
+const phone=prompt('Telephone ?')||'';
+const city=prompt('Ville ?')||'';
+suppliers.push({id:PD_DASH.uuid(),name,contact,phone,city,last_order:PD_DASH.todayISO(),active:true});
+PD_DASH.storage.set(KEY,suppliers);render();
+PD_DASH.toast('Fournisseur ajoute','success');
+});
+render();
+})();
+</script>
+</body>
+</html>
